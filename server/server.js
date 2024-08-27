@@ -3,9 +3,12 @@ const app = express();
 const port = process.env.PORT || 5000;
 const cors = require('cors');
 const { MongoClient } = require("mongodb")
+const dotenv = require('dotenv')
 
 app.use(cors())
-const client = new MongoClient("mongodb://localhost:27017")
+dotenv.config()
+
+const client = new MongoClient(process.env.MONGODB_URI)
 
 const main = async () => {
     let conn, db, collection;
@@ -21,8 +24,6 @@ const main = async () => {
     } catch(e) {
         console.error(e);
     }
-
-    collection.insertOne({a: 123})
 
     app.get('/', async (req, res) => {
         const message = await collection.find({}).toArray()
