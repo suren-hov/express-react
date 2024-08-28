@@ -16,7 +16,7 @@ const client = new MongoClient(process.env.MONGODB_URI);
 
 (async () => {
     const conn = await client.connect();
-    const db = conn.db("express-react");
+    const db = conn.db(process.env.MONGODB_NAME || "express-react");
     let collection = await db.collection("products");
 
     app.get('/products', async (req, res) => {
