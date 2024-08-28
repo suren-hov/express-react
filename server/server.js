@@ -1,6 +1,5 @@
 const express = require('express');
 const app = express();
-const port = process.env.PORT || 5000;
 const cors = require('cors');
 const { MongoClient } = require("mongodb")
 const dotenv = require('dotenv')
@@ -12,6 +11,7 @@ dotenv.config();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+const port = process.env.PORT || 5000;
 const client = new MongoClient(process.env.MONGODB_URI);
 
 (async () => {
@@ -19,12 +19,12 @@ const client = new MongoClient(process.env.MONGODB_URI);
     const db = conn.db("express-react");
     let collection = await db.collection("products");
 
-    app.get('/', async (req, res) => {
+    app.get('/products', async (req, res) => {
         const products = await collection.find({}).toArray();
         res.json({ products: products })
     });
 
-    app.post('/submit', async (req, res) => {
+    app.post('/products', async (req, res) => {
         const { name, price } = req.body;
         const message = await collection.insertOne({name: name, age: price});
         res.send(`Received product data and created with - Name: ${name}, Age: ${price}`);
