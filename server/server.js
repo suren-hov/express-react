@@ -5,12 +5,12 @@ const cors = require('cors');
 const { MongoClient } = require("mongodb")
 const dotenv = require('dotenv')
 
-app.use(cors())
-dotenv.config()
+app.use(cors());
+dotenv.config();
 
-const client = new MongoClient(process.env.MONGODB_URI)
+const client = new MongoClient(process.env.MONGODB_URI);
 
-const main = async () => {
+(async () => {
     let conn, db, collection;
     try {
         conn = await client.connect();
@@ -32,6 +32,4 @@ const main = async () => {
     app.listen(port, async () => {
         console.log(`Server is running on port ${port}`);
     });
-}
-
-main()
+})();
