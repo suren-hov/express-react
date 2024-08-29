@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
-const { MongoClient } = require("mongodb")
+const { MongoClient, ObjectId} = require("mongodb")
 const dotenv = require('dotenv')
 const bodyParser = require('body-parser');
 
@@ -29,6 +29,11 @@ const client = new MongoClient(process.env.MONGODB_URI);
         const { name, price } = req.body;
         const message = await collection.insertOne({name: name, price: price});
         res.send(`Received product data and created with - Name: ${name}, Age: ${price}`);
+    });
+
+    app.delete('/products/:id', async (req, res) => {
+        const message = await collection.deleteOne({_id: new ObjectId(req.params.id)});
+        res.send(`Deleted product with id - ${req.params.id}`);
     });
 
     app.listen(port, async () => {
