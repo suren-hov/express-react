@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const addProductForm = document.getElementById('addProductForm');
     const editProductForm = document.getElementById('editProductForm');
     const editProductModal = document.getElementById('editProductModal');
+    const closeModalBtn = document.querySelector('.close');
     let editProductId = null;
     let products = [];
 
@@ -139,6 +140,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (event.target === editProductModal) {
             editProductModal.style.display = 'none';
         }
+    });
+
+    // Close the modal
+    closeModalBtn.addEventListener('click', () => {
+        editProductModal.style.display = 'none';
     });
 
     // Fetch products on page load
