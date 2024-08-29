@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 productList.innerHTML = ''; // Clear the existing product list
                 products.forEach(product => {
                     const productCard = document.createElement('div');
-                    productCard.className = 'card';
+                    productCard.className = 'card ml-2 mr-2';
 
                     productCard.innerHTML = `
                         <img src="${product.image}" alt="${product.name}">
