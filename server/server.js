@@ -26,9 +26,9 @@ const client = new MongoClient(process.env.MONGODB_URI);
     });
 
     app.post('/products', async (req, res) => {
-        const { name, price } = req.body;
-        const message = await collection.insertOne({name: name, price: price});
-        res.send(`Received product data and created with - Name: ${name}, Age: ${price}`);
+        const { name, price, image } = req.body;
+        const message = await collection.insertOne({name, price, image});
+        res.send(`Received product data and created`);
     });
 
     app.delete('/products/:id', async (req, res) => {
