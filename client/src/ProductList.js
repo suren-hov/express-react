@@ -46,7 +46,7 @@ const ProductList = () => {
                                 <div className="card-body text-center">
                                     <h3 className="card-title">{product.name}</h3>
                                     <p className="card-text" style={{ fontWeight: 'bold', fontSize: '18px' }}>
-                                        {product.age} $
+                                        {product.price} $
                                     </p>
                                 </div>
                             </div>

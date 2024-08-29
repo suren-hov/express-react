@@ -26,7 +26,7 @@ const client = new MongoClient(process.env.MONGODB_URI);
 
     app.post('/products', async (req, res) => {
         const { name, price } = req.body;
-        const message = await collection.insertOne({name: name, age: price});
+        const message = await collection.insertOne({name: name, price: price});
         res.send(`Received product data and created with - Name: ${name}, Age: ${price}`);
     });
 
