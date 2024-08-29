@@ -31,6 +31,26 @@
     </div>
 
     <div id="product-list" class="d-flex flex-wrap gap-3"></div>
+
+    <!-- Edit Product Modal -->
+    <div id="editProductModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <form id="editProductForm">
+                <label for="editProductName">Product Name:</label>
+                <input type="text" id="editProductName" name="editProductName" required>
+
+                <label for="editProductPrice">Product Price:</label>
+                <input type="number" id="editProductPrice" name="editProductPrice" required>
+
+                <label for="editProductImage">Product Image URL:</label>
+                <input type="text" id="editProductImage" name="editProductImage">
+
+                <button type="submit" class="btn btn-primary">Update Product</button>
+            </form>
+        </div>
+    </div>
+
 </div>
 
 <script src="/app.js"></script>

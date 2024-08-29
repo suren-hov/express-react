@@ -1,14 +1,19 @@
 document.addEventListener('DOMContentLoaded', () => {
     const productList = document.getElementById('product-list');
     const addProductForm = document.getElementById('addProductForm');
+    const editProductForm = document.getElementById('editProductForm');
+    const editProductModal = document.getElementById('editProductModal');
+    let editProductId = null;
+    let products = [];
 
     // Fetch products from the server
     const fetchProducts = () => {
         fetch('/products')
             .then(response => response.json())
             .then(data => {
+                products = data.products;
                 productList.innerHTML = ''; // Clear the existing product list
-                data.products.forEach(product => {
+                products.forEach(product => {
                     const productCard = document.createElement('div');
                     productCard.className = 'card';
 
@@ -16,7 +21,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         <img src="${product.image}" alt="${product.name}">
                         <h3>${product.name}</h3>
                         <p>${product.price} $</p>
-                        <button class="delete-btn" data-id="${product._id}">Delete</button>
+                        <button class="edit-btn btn btn-warning" data-id="${product._id}">Edit</button>
+                        <button class="delete-btn btn btn-danger" data-id="${product._id}">Delete</button>
                     `;
 
                     productList.appendChild(productCard);
@@ -26,6 +32,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 const deleteButtons = document.querySelectorAll('.delete-btn');
                 deleteButtons.forEach(button => {
                     button.addEventListener('click', handleDelete);
+                });
+
+                // Attach event listeners to edit buttons
+                const editButtons = document.querySelectorAll('.edit-btn');
+                editButtons.forEach(button => {
+                    button.addEventListener('click', handleEdit);
                 });
             })
             .catch(error => console.error('Error fetching products:', error));
@@ -51,34 +63,60 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Handle product creation
-    addProductForm.addEventListener('submit', (event) => {
+    // Handle product edit
+    const handleEdit = (event) => {
+        const productId = event.target.getAttribute('data-id');
+        editProductId = productId;
+        const product = products.find(p => p._id === productId);
+
+        if (product) {
+            document.getElementById('editProductName').value = product.name;
+            document.getElementById('editProductPrice').value = product.price;
+            document.getElementById('editProductImage').value = product.image;
+        }
+
+        // Show the modal
+        editProductModal.style.display = 'block';
+    };
+
+    // Handle product update
+    const handleUpdate = (event) => {
         event.preventDefault();
 
-        const newProduct = {
-            name: document.getElementById('productName').value,
-            price: document.getElementById('productPrice').value,
-            image: document.getElementById('productImage').value || 'https://via.placeholder.com/150'
+        const updatedProduct = {
+            name: document.getElementById('editProductName').value,
+            price: document.getElementById('editProductPrice').value,
+            image: document.getElementById('editProductImage').value
         };
 
-        fetch('/products', {
-            method: 'POST',
+        fetch(`/products/${editProductId}`, {
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(newProduct)
+            body: JSON.stringify(updatedProduct)
         })
             .then(response => {
                 if (response.ok) {
-                    fetchProducts(); // Refresh the product list after adding a new product
-                    addProductForm.reset(); // Clear the form
+                    fetchProducts(); // Refresh the product list after updating a product
+                    editProductModal.style.display = 'none'; // Hide the modal
                 } else {
-                    console.error('Error adding product');
+                    console.error('Error updating product');
                 }
             })
             .catch(error => console.error('Error:', error));
+    };
+
+    // Close the modal when the user clicks outside of it
+    window.addEventListener('click', (event) => {
+        if (event.target === editProductModal) {
+            editProductModal.style.display = 'none';
+        }
     });
 
     // Fetch products on page load
     fetchProducts();
+
+    // Attach event listener to the edit form
+    editProductForm.addEventListener('submit', handleUpdate);
 });

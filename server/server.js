@@ -31,6 +31,15 @@ const client = new MongoClient(process.env.MONGODB_URI);
         res.send(`Received product data and created`);
     });
 
+    app.put('/products/:id', async (req, res) => {
+        const { name, price, image } = req.body;
+        const message = await collection.updateOne(
+            { _id: new ObjectId(req.params.id) },
+            { $set: { name, price, image } }
+        );
+        res.send(`Updated product with id - ${req.params.id}`);
+    });
+
     app.delete('/products/:id', async (req, res) => {
         const message = await collection.deleteOne({_id: new ObjectId(req.params.id)});
         res.send(`Deleted product with id - ${req.params.id}`);
