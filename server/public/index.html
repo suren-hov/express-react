@@ -8,51 +8,44 @@
     <link href="/styles.css" rel="stylesheet">
 </head>
 <body>
-<div class="container mt-5">
-    <h1 class="text-center mb-4">Product Management</h1>
+<h1>Product Management</h1>
 
-    <div id="product-form" class="mb-5">
-        <h2>Add a New Product</h2>
-        <form id="addProductForm">
-            <div class="form-group">
-                <label for="productName">Product Name</label>
-                <input type="text" class="form-control" id="productName" required>
-            </div>
-            <div class="form-group">
-                <label for="productPrice">Product Price</label>
-                <input type="number" class="form-control" id="productPrice" step="0.01" required>
-            </div>
-            <div class="form-group">
-                <label for="productImage">Image URL</label>
-                <input type="text" class="form-control" id="productImage">
-            </div>
-            <button type="submit" class="btn btn-primary">Add Product</button>
+<!-- Add Product Form -->
+<form id="addProductForm">
+    <label for="productName">Product Name:</label>
+    <input type="text" id="productName" name="productName" required>
+
+    <label for="productPrice">Product Price:</label>
+    <input type="number" id="productPrice" name="productPrice" step="0.01" required>
+
+    <label for="productImage">Product Image URL:</label>
+    <input type="text" id="productImage" name="productImage">
+
+    <button type="submit" class="btn btn-success">Add Product</button>
+</form>
+
+<!-- Product List -->
+<div id="product-list"></div>
+
+<!-- Edit Product Modal -->
+<div id="editProductModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <form id="editProductForm">
+            <label for="editProductName">Product Name:</label>
+            <input type="text" id="editProductName" name="editProductName" required>
+
+            <label for="editProductPrice">Product Price:</label>
+            <input type="number" id="editProductPrice" name="editProductPrice" step="0.01" required>
+
+            <label for="editProductImage">Product Image URL:</label>
+            <input type="text" id="editProductImage" name="editProductImage">
+
+            <button type="submit" class="btn btn-primary">Update Product</button>
         </form>
     </div>
-
-    <div id="product-list" class="d-flex flex-wrap gap-3"></div>
-
-    <!-- Edit Product Modal -->
-    <div id="editProductModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <form id="editProductForm">
-                <label for="editProductName">Product Name:</label>
-                <input type="text" id="editProductName" name="editProductName" required>
-
-                <label for="editProductPrice">Product Price:</label>
-                <input type="number" id="editProductPrice" name="editProductPrice" step="0.01" required>
-
-                <label for="editProductImage">Product Image URL:</label>
-                <input type="text" id="editProductImage" name="editProductImage">
-
-                <button type="submit" class="btn btn-primary">Update Product</button>
-            </form>
-        </div>
-    </div>
-
 </div>
 
-<script src="/app.js"></script>
+<script src="app.js"></script>
 </body>
 </html>

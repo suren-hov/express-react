@@ -43,6 +43,33 @@ document.addEventListener('DOMContentLoaded', () => {
             .catch(error => console.error('Error fetching products:', error));
     };
 
+    addProductForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const newProduct = {
+            name: document.getElementById('productName').value,
+            price: document.getElementById('productPrice').value,
+            image: document.getElementById('productImage').value || 'https://via.placeholder.com/150'
+        };
+
+        fetch('/products', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newProduct)
+        })
+            .then(response => {
+                if (response.ok) {
+                    fetchProducts(); // Refresh the product list after adding a new product
+                    addProductForm.reset(); // Clear the form
+                } else {
+                    console.error('Error adding product');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    });
+
     // Handle product deletion
     const handleDelete = (event) => {
         const productId = event.target.getAttribute('data-id');
